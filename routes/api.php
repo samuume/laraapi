@@ -22,7 +22,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/api/v1/products/{id?}', function($id = null) {
+Route::get('/v1/products/{id?}', function($id = null) {
     if ($id == null) {
         $products = App\Product::all(array('id', 'name', 'price'));
     } else {
@@ -35,7 +35,7 @@ Route::get('/api/v1/products/{id?}', function($id = null) {
     ));
 });
 
-Route::get('/api/v1/categories/{id?}', function($id = null) {
+Route::get('/v1/categories/{id?}', function($id = null) {
     if ($id == null) {
         $categories = App\Category::all(array('id', 'name'));
     } else {
