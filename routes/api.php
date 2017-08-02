@@ -43,7 +43,7 @@ Route::get('/api/v1/categories/{id?}', function($id = null) {
     }
     return Response::json(array(
         'error' => false,
-        'user' => $categories,
+        'categories' => $categories,
         'status_code' => 200
     ));
 });
