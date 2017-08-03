@@ -12,11 +12,6 @@ use Illuminate\Http\Request;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-Route::get('/', 'FrontController@index');
-Route::get('/products', 'FrontController@products');
-Route::get('/products/details/{id}', 'FrontController@product_details');
-Route::get('/products/categories/{name}', 'FrontController@product_categories');
-Route::get('/products/brands/{name}/{category?}', 'FrontController@product_brands');
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
@@ -47,3 +42,28 @@ Route::get('/v1/categories/{id?}', function($id = null) {
         'status_code' => 200
     ));
 });
+
+/*Route::get('/v1/employees/{id?}', function($id = null) {
+    if ($id == null) {
+        $employees = App\Employee::all(array('id', 'name', 'email', 'contact_number', 'gender'));
+    } else {
+        $employees = App\Employee::find($id, array('id', 'name', 'email', 'contact_number', 'gender'));
+    }
+    return Response::json(array(
+        'error' => false,
+        'employees' => $employees,
+        'status_code' => 200
+    ));
+});*/
+
+Route::group(['prefix' => 'depts'], function() {
+    Route::get('/', 'DeptController@index');
+    Route::get('/{id}', 'DeptController@show');
+});
+
+Route::group(['prefix' => 'employees'], function() {
+    Route::get('/', 'EmployeeController@index');
+    Route::get('/{id}', 'EmployeeController@show');
+});
+
+//Route::resource('/v1/depts/{id}', 'DeptController');

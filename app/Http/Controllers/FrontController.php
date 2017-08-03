@@ -7,15 +7,19 @@ use App\Product;
 use App\Brand;
 use App\Employee;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Redirect;
+//use Illuminate\Http\Request;
+use Request;
+use Illuminate\Routing\Redirector;
 use Cart;
 
 class FrontController extends Controller
 {
 
+    var $brands;
     var $categories;
     var $products;
+    var $title;
+    var $description;
 
     public function __construct() {
       $this->categories = Category::all(array('name'));
@@ -62,18 +66,45 @@ class FrontController extends Controller
     }
 
     public function logout() {
-        return view('login', array('title' => 'Welcome','description' => '','page' => 'home'));
+        Auth::logout();
+
+        return Redirect::away('login');
     }
 
-    public function cart(Request $request) {
-        if ($request == 'post') {
-          $input = Request::all();
-          $product_id = Request::get('product_id', $input);
-          $product = Product::find($product_id, $input);
-          Cart::add(array('id' => $product_id, 'name' => $product->name, 'qty' => 1, 'price' => $product->price), $input);
+    public function cart() {
+        //update/ add new item to cart
+        if (Request::isMethod('post')) {
+            $product_id = Request::get('product_id');
+            $product = Product::find($product_id);
+            Cart::add(array('id' => $product_id, 'name' => $product->name, 'qty' => 1, 'price' => $product->price));
         }
+
+        //increment the quantity
+        if (Request::get('product_id') && (Request::get('increment')) == 1) {
+            $rowId = Cart::search(array('id' => Request::get('product_id')));
+
+            $item = Cart::get($rowId[0]);
+
+            Cart::update($rowId[0], $item->qty + 1);
+        }
+
+        //decrease the quantity
+        if (Request::get('product_id') && (Request::get('decrease')) == 1) {
+            $rowId = Cart::search(array('id' => Request::get('product_id')));
+            $item = Cart::get($rowId[0]);
+
+            Cart::update($rowId[0], $item->qty - 1);
+        }
+
+
         $cart = Cart::content();
-        return view('cart', array('title' => 'Welcome','description' => '','page' => 'home'));
+
+        return view('cart', array('cart' => $cart, 'title' => 'Welcome', 'description' => '', 'page' => 'home'));
+    }
+
+    public function clear_cart() {
+        Cart::destroy();
+        return Redirect::away('cart');
     }
 
     public function checkout() {

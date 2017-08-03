@@ -10,7 +10,7 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-/*
+
 Route::get('/', 'FrontController@index');
 Route::get('/products', 'FrontController@products');
 Route::get('/products/details/{id}', 'FrontController@product_details');
@@ -19,8 +19,15 @@ Route::get('/products/brands/{name}/{category?}', 'FrontController@product_brand
 Route::get('/blog', 'FrontController@blog');
 Route::get('/blog/post/{id}', 'FrontController@blog_post');
 Route::get('/contact_us', 'FrontController@contact_us');
+
 Route::get('/login', 'FrontController@login');
 Route::get('logout', 'FrontController@logout');
+// Authentication routes
+Route::get('auth/login', 'FrontController@login');
+Route::post('auth/login', 'FrontController@authenticate');
+Route::get('auth/logout', 'FrontController@logout');
+//Registration routes
+Route::post('/register', 'FrontController@register');
 
 Route::get('/search/{query}', 'FrontController@search');
 
