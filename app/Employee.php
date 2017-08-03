@@ -13,6 +13,6 @@ class Employee extends Model
     protected $hidden = ['created_at', 'updated_at'];
 
     public function depts() {
-      return $this->hasMany('App\Dept', 'depts', 'id');
+      return $this->hasOne('App\Dept', 'id');
     }
 }
