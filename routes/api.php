@@ -56,14 +56,13 @@ Route::get('/v1/categories/{id?}', function($id = null) {
     ));
 });*/
 
-Route::group(['prefix' => 'depts'], function() {
+Route::group(['prefix' => 'v1/depts'], function() {
     Route::get('/', 'DeptController@index');
     Route::get('/{id}', 'DeptController@show');
 });
 
-Route::group(['prefix' => 'employees'], function() {
+Route::group(['prefix' => 'v1/employees'], function() {
     Route::get('/', 'EmployeeController@index');
     Route::get('/{id}', 'EmployeeController@show');
 });
-
 //Route::resource('/v1/depts/{id}', 'DeptController');

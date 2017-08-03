@@ -15,13 +15,8 @@ class DeptController extends Controller
     }
     public function index($id = null)
     {
-        if ($id == null) {
-          $depts = Dept::all();
-          return $depts;
-        } else {
-          $depts = Dept::find($id, array('id', 'name'));
-          return $depts;
-        }
+        $depts = Dept::all();
+        return $depts;
     }
 
     public function store(Request $request)
@@ -31,7 +26,8 @@ class DeptController extends Controller
 
     public function show(Dept $id)
     {
-
+        $depts = Dept::find($id, array('id', 'name'));
+        return $depts;
     }
 
     /**

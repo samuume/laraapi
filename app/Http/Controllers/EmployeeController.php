@@ -8,7 +8,7 @@ use App\Http\Controllers\DeptController;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Support\Facades\DB;
-
+ 
 class EmployeeController extends Controller
 {
 
